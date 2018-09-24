@@ -54,7 +54,7 @@ class LoginCtrl {
                     [
                         "login", 
                         "password", 
-                        "email" 
+                        "role" 
                         
                     ],[
                         "login" => $this->form->login,
