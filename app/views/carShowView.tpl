@@ -20,7 +20,7 @@
 	</tr>
 </thead>
 <tbody>
-{foreach $cars as $p}
+{foreach $car_info as $p}
 {strip}
 	<tr>
 		<td>{$p["marka"]}</td>
