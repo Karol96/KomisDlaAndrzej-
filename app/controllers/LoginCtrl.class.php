@@ -67,7 +67,7 @@ class LoginCtrl {
                     $user = new User(
                         $result[0]['login'], 
                         $result[0]['password'], 
-                        'user');
+                        'admin');
                        
                     
                     // Zapisujemy nowo utworzony obiekt użytkownika w sesji
