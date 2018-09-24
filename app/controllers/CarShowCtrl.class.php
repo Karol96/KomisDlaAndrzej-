@@ -41,7 +41,7 @@ class CarShowCtrl {
         }
 
         // 4. wygeneruj widok
-        App::getSmarty()->assign('car_info', $this->car_info);
+        App::getSmarty()->assign('car_info', $car_info);
         
         App::getSmarty()->display('carShowView.tpl');
     }
