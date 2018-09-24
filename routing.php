@@ -15,7 +15,7 @@ Utils::addRoute('register', 'RegisterCtrl');
 Utils::addRoute('carNew',     'CarEditCtrl',	['user','admin']);
 Utils::addRoute('carEdit',    'CarEditCtrl',	['user','admin']);
 Utils::addRoute('carSave',    'CarEditCtrl',	['user','admin']);
-Utils::addRoute('carDelete',  'CarEditCtrl',	['admin']);
+Utils::addRoute('carDelete',  'CarEditCtrl',	['user','admin']);
 Utils::addRoute('profil',    'ProfilCtrl',	['user','admin']);
 Utils::addRoute('carShow',    'CarShowCtrl',	['user','admin']);
 
