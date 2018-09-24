@@ -53,8 +53,8 @@ class LoginCtrl {
                         "users", 
                     [
                         "login", 
-                        "password", 
-                        "role" 
+                        "password"
+        
                         
                     ],[
                         "login" => $this->form->login,
@@ -67,7 +67,7 @@ class LoginCtrl {
                     $user = new User(
                         $result[0]['login'], 
                         $result[0]['password'], 
-                        $result[0]['role']);
+                        'user');
                        
                     
                     // Zapisujemy nowo utworzony obiekt użytkownika w sesji
