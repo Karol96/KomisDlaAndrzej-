@@ -20,16 +20,11 @@
 	</tr>
 </thead>
 <tbody>
-{foreach $car_info as $p}
-{strip}
 	<tr>
-		<td>{$p["marka"]}</td>
-		<td>{$p["model"]}</td>
-		<td>{$p["rok"]}</td>
-		
+		<td>{$car_info["marka"]}</td>
+		<td>{$car_info["model"]}</td>
+		<td>{$car_info["rok"]}</td>	
 	</tr>
-{/strip}
-{/foreach}
 </tbody>
 </table>
 

@@ -1,34 +1,26 @@
 <?php
-
-namespace app\controllers;
-
-use core\App;
+ namespace app\controllers;
+ use core\App;
 use core\Utils;
 use core\ParamUtils;
 use core\Validator;
 use app\forms\CarEditForm;
-
-class CarEditCtrl {
-
-    private $form; //dane formularza
-
-    public function __construct() {
+ class CarEditCtrl {
+     private $form; //dane formularza
+     public function __construct() {
         //stworzenie potrzebnych obiektów
         $this->form = new CarEditForm();
     }
-
-    // Walidacja danych przed zapisem (nowe dane lub edycja).
+     // Walidacja danych przed zapisem (nowe dane lub edycja).
     public function validateSave() {
         //0. Pobranie parametrów z walidacją
         $this->form->id = ParamUtils::getFromRequest('id', true, 'Błędne wywołanie aplikacji');
         $this->form->marka = ParamUtils::getFromRequest('marka', true, 'Błędne wywołanie aplikacji');
         $this->form->model = ParamUtils::getFromRequest('model', true, 'Błędne wywołanie aplikacji');
         $this->form->rok = ParamUtils::getFromRequest('rok', true, 'Błędne wywołanie aplikacji');
-
-        if (App::getMessages()->isError())
+         if (App::getMessages()->isError())
             return false;
-
-        // 1. sprawdzenie czy wartości wymagane nie są puste
+         // 1. sprawdzenie czy wartości wymagane nie są puste
         if (empty(trim($this->form->marka))) {
             Utils::addErrorMessage('Wprowadź marke samochodu');
         }
@@ -38,35 +30,27 @@ class CarEditCtrl {
         if (empty(trim($this->form->rok))) {
             Utils::addErrorMessage('Wprowadź datę produkcji');
         }
-
-        if (App::getMessages()->isError())
+         if (App::getMessages()->isError())
             return false;
-
-        // 2. sprawdzenie poprawności przekazanych parametrów
-
-        $d = \DateTime::createFromFormat('Y-m-d', $this->form->rok);
+         // 2. sprawdzenie poprawności przekazanych parametrów
+         $d = \DateTime::createFromFormat('Y-m-d', $this->form->rok);
         if ($d === false) {
             Utils::addErrorMessage('Zły format daty. Przykład: 2015-12-20');
         }
-
-        return !App::getMessages()->isError();
+         return !App::getMessages()->isError();
     }
-
-    //validacja danych przed wyswietleniem do edycji
+     //validacja danych przed wyswietleniem do edycji
     public function validateEdit() {
         //pobierz parametry na potrzeby wyswietlenia danych do edycji
         //z widoku listy osób (parametr jest wymagany)
         $this->form->id = ParamUtils::getFromCleanURL(1, true, 'Błędne wywołanie aplikacji');
         return !App::getMessages()->isError();
     }
-
-    public function action_carNew() {
+     public function action_carNew() {
         $this->generateView();
     }
-
-    //wysiweltenie rekordu do edycji wskazanego parametrem 'id'
+     //wysiweltenie rekordu do edycji wskazanego parametrem 'id'
     public function action_carEdit() {
-
         // 1. walidacja id osoby do edycji
         if ($this->validateEdit()) {
             try {
@@ -74,8 +58,8 @@ class CarEditCtrl {
                 $record = App::getDB()->get("cars", "*", [
                     "id_cars" => $this->form->id
                 ]);
-                // 2.1 jeśli auto istnieje to wpisz dane do obiektu formularza
-                $this->form->id = $record['id_cars'];
+                // 2.1 jeśli osoba istnieje to wpisz dane do obiektu formularza
+                $this->form->id = $record['Id_cars'];
                 $this->form->marka = $record['marka'];
                 $this->form->model = $record['model'];
                 $this->form->rok = $record['rok'];
@@ -85,16 +69,13 @@ class CarEditCtrl {
                     Utils::addErrorMessage($e->getMessage());
             }
         }
-
-        // 3. Wygenerowanie widoku
+         // 3. Wygenerowanie widoku
         $this->generateView();
     }
-
-    public function action_carDelete() {
+     public function action_carDelete() {
         // 1. walidacja id osoby do usuniecia
         if ($this->validateEdit()) {
-
-            try {
+             try {
                 // 2. usunięcie rekordu
                 App::getDB()->delete("cars", [
                     "id_cars" => $this->form->id
@@ -106,19 +87,15 @@ class CarEditCtrl {
                     Utils::addErrorMessage($e->getMessage());
             }
         }
-
-        // 3. Przekierowanie na stronę listy osób
+         // 3. Przekierowanie na stronę listy osób
         App::getRouter()->forwardTo('carList');
     }
-
-    public function action_carSave() {
-
-        // 1. Walidacja danych formularza (z pobraniem)
+     public function action_carSave() {
+         // 1. Walidacja danych formularza (z pobraniem)
         if ($this->validateSave()) {
             // 2. Zapis danych w bazie
             try {
-
-                //2.1 Nowy rekord
+                 //2.1 Nowy rekord
                 if ($this->form->id == '') {
                     //sprawdź liczebność rekordów - nie pozwalaj przekroczyć 20
                     $count = App::getDB()->count("cars");
@@ -155,20 +132,15 @@ class CarEditCtrl {
                 if (App::getConf()->debug)
                     Utils::addErrorMessage($e->getMessage());
             }
-
-            // 3b. Po zapisie przejdź na stronę listy osób (w ramach tego samego żądania http)
+             // 3b. Po zapisie przejdź na stronę listy osób (w ramach tego samego żądania http)
             App::getRouter()->forwardTo('carList');
         } else {
             // 3c. Gdy błąd walidacji to pozostań na stronie
             $this->generateView();
         }
     }
-
-    public function generateView() {
+     public function generateView() {
         App::getSmarty()->assign('form', $this->form); // dane formularza dla widoku
         App::getSmarty()->display('CarEdit.tpl');
     }
-
-}
-
-
+ }
