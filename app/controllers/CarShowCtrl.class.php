@@ -9,14 +9,29 @@ use core\ParamUtils;
 
 
 class CarShowCtrl {
-    private $form; //dane formularza
+
+  
+   
+    private $form; 
+   
+
+      public function __construct() {
+        //stworzenie potrzebnych obiektów
+        $this->form = new CarShowForm();
+    }
     
+    
+
     public function action_carShow() {
-  
-    
-  
-       try {
-           $record = App::getDB()->get("cars", "*", [
+       
+       
+
+      
+     
+     
+        $this->form->id = ParamUtils::getFromRequest('id', true, 'Błędne wywołanie aplikacji');
+        try {
+         App::getDB()->get("cars", "*", [
                     "id_cars" => $this->form->id
                 ]);
         } catch (\PDOException $e) {
@@ -26,8 +41,8 @@ class CarShowCtrl {
         }
 
         // 4. wygeneruj widok
+        App::getSmarty()->assign('form', $this->form);
         
-        App::getSmarty()->assign('cars', $this->records);  // lista rekordów z bazy danych
         App::getSmarty()->display('carShowView.tpl');
     }
 

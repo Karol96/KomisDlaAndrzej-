@@ -66,6 +66,7 @@ class CarEditCtrl {
 
     //wysiweltenie rekordu do edycji wskazanego parametrem 'id'
     public function action_carEdit() {
+        $this->form->id = ParamUtils::getFromRequest('id', true, 'Zapraszam do edycji');
         // 1. walidacja id osoby do edycji
         if ($this->validateEdit()) {
             try {
@@ -73,7 +74,7 @@ class CarEditCtrl {
                 $record = App::getDB()->get("cars", "*", [
                     "id_cars" => $this->form->id
                 ]);
-                // 2.1 jeśli osoba istnieje to wpisz dane do obiektu formularza
+                // 2.1 jeśli auto istnieje to wpisz dane do obiektu formularza
                 $this->form->id = $record['id_cars'];
                 $this->form->marka = $record['marka'];
                 $this->form->model = $record['model'];
