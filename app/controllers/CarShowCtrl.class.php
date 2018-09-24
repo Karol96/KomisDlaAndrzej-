@@ -29,7 +29,7 @@ class CarShowCtrl {
       
      
      
-        $this->form->id = ParamUtils::getFromRequest('id', true, 'Błędne wywołanie aplikacji');
+        $this->form->id = ParamUtils::getFromCleanURL(1, true, 'Błędne wywołanie aplikacji');
         try {
          $car_info = App::getDB()->get("cars", "*", [
                     "id_cars" => $this->form->id
