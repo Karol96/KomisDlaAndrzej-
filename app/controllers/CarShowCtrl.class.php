@@ -31,7 +31,7 @@ class CarShowCtrl {
      
         $this->form->id = ParamUtils::getFromRequest('id', true, 'Błędne wywołanie aplikacji');
         try {
-         App::getDB()->get("cars", "*", [
+         $car_info = App::getDB()->get("cars", "*", [
                     "id_cars" => $this->form->id
                 ]);
         } catch (\PDOException $e) {
@@ -41,7 +41,7 @@ class CarShowCtrl {
         }
 
         // 4. wygeneruj widok
-        App::getSmarty()->assign('form', $this->form);
+        App::getSmarty()->assign('car_info', $this->car_info);
         
         App::getSmarty()->display('carShowView.tpl');
     }
