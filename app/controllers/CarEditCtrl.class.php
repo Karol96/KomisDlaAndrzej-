@@ -66,7 +66,7 @@ class CarEditCtrl {
 
     //wysiweltenie rekordu do edycji wskazanego parametrem 'id'
     public function action_carEdit() {
-        $this->form->id = ParamUtils::getFromRequest('id', true, 'Zapraszam do edycji');
+
         // 1. walidacja id osoby do edycji
         if ($this->validateEdit()) {
             try {
